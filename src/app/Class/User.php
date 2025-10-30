@@ -105,21 +105,36 @@ class User
         return $this;
     }
 
-    public static function validateUserCreation(array $userData):User|array{
-        try {
-            v::key('username',v::stringType())
-                ->key('email',v::email())
-                ->key('password',v::stringType()->min(5)->max(32))
-                ->assert($userData);
-        }catch (NestedValidationException $errores){
-            return $errores->getMessages();
-        }
+    public static function createUserFromArray(array $userData):User{
 
-        return new User(
+        $usuario=new User(
             $userData['username'],
             $userData['email'],
             $userData['password']
         );
+        $usuario->setBirthdate(DateTime::createFromFormat('Y-m-d',$userData['birthdate']));
+        $usuario->setType(UserType::createFromString($userData['type']));
+
+        return $usuario;
+
+    }
+
+    public static function validateUserCreation(array $userData):User|array{
+       try{
+           v::key('email',v::email())
+               ->key('username',v::stringType()->length(3,64))
+               ->key('password',v::stringType()->length(3,15))
+               ->key('birthdate',v::date('Y-m-d'))
+               ->key('type',v::in(['admin','normal','publicidad']))
+               ->assert($userData);
+
+       }catch (NestedValidationException $errores){
+           return $errores->getMessages();
+       }
+
+       //Creacion de un usuario
+        return User::createUserFromArray($userData);
+
 
 
     }

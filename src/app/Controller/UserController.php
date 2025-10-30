@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Class\User;
+use App\Enum\UserType;
 use App\Interface\ControllerInterface;
 
 class UserController implements ControllerInterface
@@ -36,11 +37,30 @@ class UserController implements ControllerInterface
     }
 
     public function create(){
-        include_once "app/View/frontend/register.php";
+
+        if(isset($_SESSION['user'])){
+            if($_SESSION['user']->getType()===UserType::ADMIN){
+                return include_once DIRECTORIO_VISTAS_BACKEND."crearUsuario.php";
+            }else{
+                return include_once DIRECTORIO_VISTAS_FRONTEND."crearUsuario.php";
+            }
+        }else{
+            return include_once DIRECTORIO_VISTAS."accesoNoPermitido.php";
+        }
     }
 
     public function store(){
-        var_dump($_POST);
+
+
+        //Validar los datos del usuario
+        $resultado=User::validateUserCreation($_POST);
+
+        if (is_array($resultado)){
+            return include_once DIRECTORIO_VISTAS_BACKEND."crearUsuario.php";
+
+        }
+
+
 
     }
 
