@@ -8,4 +8,9 @@ class PacienteControlador
 
     }
 
+    public function listar(){
+        $pacientes = \App\Modelo\PacienteModelo::obtenerTodos();
+        require_once __DIR__. '/../View/principal.php';
+    }
+
 }

@@ -10,7 +10,9 @@ $router = new RouteCollector();
 
 
 $router->get('/',function (){
-    include_once "app/View/principal.php";
+    //include_once "app/View/principal.php";
+    $controlador = new \App\Controlador\PacienteControlador();
+    return $controlador->listar();
 });
 
 

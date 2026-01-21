@@ -6,7 +6,7 @@ use DateTime;
 
 class Paciente
 {
-    private string $SIP;
+    /*private string $SIP;
     private string $nombre;
     private string $peso;
     private array $historial;
@@ -98,5 +98,48 @@ class Paciente
         return $paciente;
     }
 
+*/
+    private int $id;
+    private string $nombre;
+    private string $numero_sip;
+    private string $fecha_nacimiento;
+    private string $alergias;
+
+    /**
+     * @param int $id
+     * @param string $nombre
+     * @param string $numero_sip
+     * @param string $fecha_nacimiento
+     * @param string $alergias
+     */
+    public function __construct(int $id, string $nombre, string $numero_sip, string $fecha_nacimiento, string $alergias)
+    {
+        $this->id = $id;
+        $this->nombre = $nombre;
+        $this->numero_sip = $numero_sip;
+        $this->fecha_nacimiento = $fecha_nacimiento;
+        $this->alergias = $alergias;
+    }
+
+
+    public function getId(): int {
+        return $this->id;
+    }
+
+    public function getNombre(): string {
+        return $this->nombre;
+    }
+
+    public function getSip(): string {
+        return $this->numero_sip;
+    }
+
+    public function getFechaNacimiento(): string {
+        return $this->fecha_nacimiento;
+    }
+
+    public function getAlergias(): ?string {
+        return $this->alergias;
+    }
 
 }
