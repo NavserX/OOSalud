@@ -95,5 +95,43 @@ class Tratamiento
         return $this;
     }
 
+    public function getCosteTotal(): float
+    {
+        $costeTotal = 0;
+
+        foreach ($this->medicamentos as $medicamento) {
+            $costeTotal += $medicamento->getPrecio();
+        }
+
+        return $costeTotal;
+    }
+
+    /*public function eliminarPaciente(int $id): bool
+    {
+        for ($i = 0; $i < count($this->pacientes); $i++) {
+            if ($this->pacientes[$i]->getId() === $id) {
+                unset($this->pacientes[$i]);
+                return true;
+            }
+        }
+        return false;
+    }*/
+
+    public function eliminarMedicamento(int $id):bool {
+
+        foreach ($this->medicamentos as $medicamento) {
+            if ($medicamento->getId() === $id) {
+                unset($this->medicamentos[$id]);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function addMedicamento(Medicamento $medicamento): Tratamiento {
+        $this->medicamentos[] = $medicamento;
+        return $this;
+    }
+
 
 }

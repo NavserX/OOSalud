@@ -20,7 +20,18 @@ class PacienteModelo
         $stmt->bindParam(":id",$id);
         $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $paciente = Paciente::fromArray($resultado);
         return $resultado;
+    }
+
+    public static function fromArray(array $datos):Paciente{
+        $paciente = new Paciente($datos['id'], $datos['nombre'], $datos['numero_sip'], $datos['fecha_nacimiento'], $datos['alergias']);
+        $paciente->setId($datos['id']);
+        $paciente->setNombre($datos['nombre']);
+        $paciente->setNumeroSip($datos['numero_sip']);
+        $paciente->setFechaNacimiento($datos['fecha_nacimiento']);
+        $paciente->setAlergias($datos['alergias']);
+        return $paciente;
     }
 
     public static function obtenerTodos(): array
@@ -47,6 +58,16 @@ class PacienteModelo
         } catch (\PDOException $e) {
             die("Error en obtenerTodos: " . $e->getMessage());
         }
+    }
+
+    public function buscarPaciente(int $id): ?Paciente
+    {
+        for ($i = 0; $i < count($this->pacientes); $i++) {
+            if ($this->pacientes[$i]->getId() === $id) {
+                return $this->pacientes[$i];
+            }
+        }
+        return null;
     }
 
 }
