@@ -142,4 +142,36 @@ class Paciente
         return $this->alergias;
     }
 
+    public function setId(int $id): Paciente
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function setNombre(string $nombre): Paciente
+    {
+        $this->nombre = $nombre;
+        return $this;
+    }
+
+    public function setNumeroSip(string $numero_sip): Paciente
+    {
+        $this->numero_sip = $numero_sip;
+        return $this;
+    }
+
+    public function setFechaNacimiento(string $fecha_nacimiento): Paciente
+    {
+        $this->fecha_nacimiento = $fecha_nacimiento;
+        return $this;
+    }
+
+    public function setAlergias(string $alergias): Paciente
+    {
+        $this->alergias = $alergias;
+        return $this;
+    }
+
+
+
 }
