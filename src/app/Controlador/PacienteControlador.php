@@ -2,6 +2,7 @@
 
 namespace App\Controlador;
 
+use App\Class\Paciente;
 use App\Modelo\PacienteModelo;
 
 class PacienteControlador
@@ -15,19 +16,37 @@ class PacienteControlador
             "data"=>$paciente
         ]);
 
-        Class Paciente implements \JsonSerializable{
-
-            public function jsonSerialize(): mixed {
-                return[
-                    "nombre"=>$this->name
-                ];
-            }
-        }
     }
 
-    public function create(array $datos): bool
+    public function create(){
+        return include_once "app/View/insertarPaciente.php";
+    }
+
+
+    public function store(): bool
     {
-        return PacienteModelo::crearPaciente($datos);
+        var_dump($_POST);
+
+        $paciente = Paciente::fromArray($_POST);
+        var_dump($paciente);
+
+        return PacienteModelo::crearPaciente($paciente);
+    }
+
+    public function update(int $id){
+
+        $paciente = PacienteModelo::buscarPaciente($id);
+        $put = json_decode(file_get_contents("php://input"),true);
+
+        $paciente->setNumeroSip($put["numeroSip"]??$paciente->getSip());
+        $paciente->setNombre($put["nombre"]??$paciente->getNombre());
+        $paciente->setAlergias($put["alergias"]??$paciente->getAlergias());
+
+        if (isset($put["fechaNacimiento"])){
+            \DateTime::createFromFormat('d/m/Y', $put["fechaNacimiento"]);
+        }
+
+        PacienteModelo::modificarPaciente($paciente);
     }
 
     public function delete(int $id): bool

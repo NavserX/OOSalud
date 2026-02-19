@@ -14,6 +14,10 @@ $router->get('/',function (){
     $controlador = new \App\Controlador\PacienteControlador();
     return $controlador->listar();
 });
+$router->post('/paciente',[\App\Controlador\PacienteControlador::class, 'store']);
+$router->get('/paciente/create',[\App\Controlador\PacienteControlador::class, 'create']);
+
+$router->put('/paciente/{id}',[\App\Controlador\PacienteControlador::class, 'update']);
 
 
 //Resolución de rutas

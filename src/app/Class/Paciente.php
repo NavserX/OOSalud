@@ -2,6 +2,7 @@
 
 namespace App\Class;
 
+use App\Modelo\PacienteModelo;
 use DateTime;
 
 class Paciente
@@ -102,7 +103,7 @@ class Paciente
     private int $id;
     private string $nombre;
     private string $numero_sip;
-    private string $fecha_nacimiento;
+    private DateTime $fecha_nacimiento;
     private string $alergias;
 
     /**
@@ -112,7 +113,7 @@ class Paciente
      * @param string $fecha_nacimiento
      * @param string $alergias
      */
-    public function __construct(int $id, string $nombre, string $numero_sip, string $fecha_nacimiento, string $alergias)
+    public function __construct(int $id, string $nombre, string $numero_sip, DateTime $fecha_nacimiento, string $alergias)
     {
         $this->id = $id;
         $this->nombre = $nombre;
@@ -134,7 +135,7 @@ class Paciente
         return $this->numero_sip;
     }
 
-    public function getFechaNacimiento(): string {
+    public function getFechaNacimiento(): DateTime {
         return $this->fecha_nacimiento;
     }
 
@@ -160,7 +161,7 @@ class Paciente
         return $this;
     }
 
-    public function setFechaNacimiento(string $fecha_nacimiento): Paciente
+    public function setFechaNacimiento(DateTime $fecha_nacimiento): Paciente
     {
         $this->fecha_nacimiento = $fecha_nacimiento;
         return $this;
@@ -170,6 +171,11 @@ class Paciente
     {
         $this->alergias = $alergias;
         return $this;
+    }
+
+    public static function fromArray(array $data): Paciente
+    {
+       return new Paciente(PacienteModelo::nextIdPaciente(), $data['nombre'], $data['numero_sip'], DateTime::createFromFormat('Y-m-d',$data['fecha_nacimiento']), $data['alergias']);
     }
 
 
